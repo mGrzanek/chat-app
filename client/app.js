@@ -13,6 +13,7 @@ const login = e => {
     e.preventDefault();
     if(userNameInput.value){
         userName = userNameInput.value;
+        socket.emit('join', ({ name: userName}));
         loginForm.classList.remove('show');
         messagesSection.classList.add('show');
     } else alert('Username required!');

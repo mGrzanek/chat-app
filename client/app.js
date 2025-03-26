@@ -34,6 +34,7 @@ const sendMessage = e => {
     e.preventDefault();
     if(messageContentInput.value){
         addMessage(userName, messageContentInput.value);
+        socket.emit('message', { author: userName, content: messageContentInput.value});
         messageContentInput.value = '';
     } else alert('Empty message!');
 };

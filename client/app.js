@@ -8,12 +8,14 @@ const socket = io();
 let userName;
 
 socket.on('message', ({ author, content }) => addMessage(author, content));
+socket.on('join', (name) => addMessage('Chat Boot', `${name} has joined the conversation!`));
+socket.on('remove', (userToRemove) => addMessage('Chat Boot', `Oh, ${userToRemove} has left the conversation... :(`));
 
 const login = e => {
     e.preventDefault();
     if(userNameInput.value){
         userName = userNameInput.value;
-        socket.emit('join', ({ name: userName}));
+        socket.emit('join', userName);
         loginForm.classList.remove('show');
         messagesSection.classList.add('show');
     } else alert('Username required!');

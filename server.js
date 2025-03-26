@@ -17,18 +17,20 @@ const server = app.listen(8000, () => {
 
 const io = socket(server);
 io.on('connection', (socket) => {
-    console.log('New client! Its id – ' + socket.id);
-    socket.on('join', (username) => {
-        users.push({username, id: socket.id});
-        console.log(`${username.name} has joined.`);
+    socket.on('join', name => {
+        console.log(name);
+        users.push({name, id: socket.id});
+        console.log(users);
+        socket.broadcast.emit('join', name);
     });
      socket.on('message', (message) => { 
-        console.log('Oh, I\'ve got something from ' + socket.id);
         messages.push(message);
         socket.broadcast.emit('message', message);
     });
     socket.on('disconnect', () => { 
-        users.splice(users.findIndex(user => user.id === socket.id), 1);
-         console.log(`Oh, ${socket.id} has left`);
+        const userToRemove = users.find(user => user.id === socket.id);
+        const user = userToRemove.name;
+        users.splice(users.indexOf(userToRemove), 1);
+        socket.broadcast.emit('remove', user);
     });
 });

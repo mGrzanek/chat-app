@@ -28,7 +28,7 @@ const addMessage = (author, content) => {
     if(author === userName) message.classList.add('message--self');
     message.innerHTML = `
         <h3 class="message__author">${(author === userName ? 'You' : author)}</h3>
-        <div class="message__content">${content}</div>
+        <div class="message__content ${author === 'Chat Boot' ? 'chat__content' : ''}">${content}</div>
     `;
     messagesList.appendChild(message);
 };

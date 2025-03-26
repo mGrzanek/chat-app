@@ -18,9 +18,7 @@ const server = app.listen(8000, () => {
 const io = socket(server);
 io.on('connection', (socket) => {
     socket.on('join', name => {
-        console.log(name);
         users.push({name, id: socket.id});
-        console.log(users);
         socket.broadcast.emit('join', name);
     });
      socket.on('message', (message) => { 
@@ -29,8 +27,9 @@ io.on('connection', (socket) => {
     });
     socket.on('disconnect', () => { 
         const userToRemove = users.find(user => user.id === socket.id);
-        const user = userToRemove.name;
-        users.splice(users.indexOf(userToRemove), 1);
-        socket.broadcast.emit('remove', user);
+        if (userToRemove) {
+            users.splice(users.indexOf(userToRemove), 1);
+            socket.broadcast.emit('remove', userToRemove.name);
+        } else console.log('User not exist');
     });
 });

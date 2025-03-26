@@ -9,7 +9,7 @@ let userName;
 const login = e => {
     e.preventDefault();
     if(userNameInput.value){
-        userName = userNameInput.ariaValueMax;
+        userName = userNameInput.value;
         loginForm.classList.remove('show');
         messagesSection.classList.add('show');
     } else alert('Username required!');

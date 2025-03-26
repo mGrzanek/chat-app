@@ -4,7 +4,10 @@ const messagesSection = document.getElementById('messages-section');
 const messagesList = messagesSection.querySelector('.messages-section__list');
 const addMessageForm  = document.getElementById('add-messages-form');
 const messageContentInput = addMessageForm.querySelector('#message-content');
+const socket = io();
 let userName;
+
+socket.on('message', ({ author, content }) => addMessage(author, content));
 
 const login = e => {
     e.preventDefault();
